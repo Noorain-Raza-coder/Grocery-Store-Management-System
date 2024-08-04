@@ -3,7 +3,7 @@ from mysqlConn import mysqlConnection
 
 
 ## Function to show products
-def showProducts():
+def productList():
     """This function returns a list of products dictionary.
     ex - [{'prod_id': 1, 'prod_name': 'Biscuit', 'prod_uom': 'each', 'prod_price': 10.0}]"""
 
