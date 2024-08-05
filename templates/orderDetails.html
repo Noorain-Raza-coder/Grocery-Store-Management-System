@@ -72,7 +72,7 @@
                             <td>{{row[data]}}</td>
 
                         {% endfor %}
-                        <td><a href="{{url_for('addItemtoCart' , id = row['prod_id'])}}">Remove Item</a></td>
+                        <td><a href="{{url_for('removeItemFromCart' , id = row['prod_id'])}}">Remove Item</a></td>
 
                     </tr>
 

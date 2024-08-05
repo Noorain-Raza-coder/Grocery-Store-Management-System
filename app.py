@@ -41,8 +41,10 @@ def OrderPage():
 
 ## route for remove a cart item
 @app.route('/removeItem')
-def removeCartItem():
-    return "Item is removed successfully."
+def removeItemFromCart():
+    id = request.args.get("id")
+    removeCartItem(id)
+    return redirect('/order')
 
 
 

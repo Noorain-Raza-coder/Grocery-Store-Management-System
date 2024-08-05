@@ -64,7 +64,7 @@ def addCartItems(prod_id , prod_quantity = 1):
 
 
 
-## 
+## this function remove item from cart
 def removeCartItem(prod_id):
     """This function takes item/product id and removes that item from the cart."""
 
