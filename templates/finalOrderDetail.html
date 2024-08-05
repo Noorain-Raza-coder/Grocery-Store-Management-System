@@ -53,29 +53,26 @@
 
     <div>
         <div class="text-center">
-            <h1>Added Items</h1>
+            <h1>Order Details</h1>
         </div>
         
         <div class="text-center">
             <table>
                 <tr>
-                    <th>ID</th>
+                    <th>Order ID</th>
+                    <th>Order Date</th>
                     <th>Name</th>
-                    <th>Qty</th>
-                    <th>Price</th>
-                    <th>Action</th>
+                    <th>Total Price</th>
                 </tr>
 
-                {% for row in cartitems %}
+                {% for row in finalOrdDetail %}
                     <tr>
                         {% for data in row %}
                             <td>{{row[data]}}</td>
 
                         {% endfor %}
-                        <td><a href="{{url_for('removeItemFromCart' , id = row['prod_id'])}}">Remove Item</a></td>
-
+                        
                     </tr>
-
                 {% endfor %}
             </table>
         </div>
@@ -83,20 +80,11 @@
 
     </div>
     
-    <!-- total price tag -->
-    <div>
-        <div class="text-center">
-            <h3>Total Price : {{totalPrice}} Rs.</h3>
-        </div>
-        
-    </div>
 
     <!-- place order button -->
     <div>
-        <form action="/orderDetails" method="post" >
-            <label>Enter Your Email :</label>
-            <input type="text" name = "email" id="email"><br>
-            <button type="submit" >Place Order</button>
+        <form action="/invoice/{{finalOrdDetail[0]['order_id']}}" method="post" >
+            <button type="submit">Get Your Invoice</button>
         </form>
         
     </div>

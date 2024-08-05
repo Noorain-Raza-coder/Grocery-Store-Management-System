@@ -2,16 +2,11 @@ from datetime import datetime
 from mysqlConn import mysqlConnection
 
 
-def createOrderDetails(user_email):
-    """This function insert the details into orders table."""
 
-    # following is the order details
-    #(order_id , order_date , customer_name , total_price) # order_id is auto increment so don't pass
-    # lets collect it one by one.
+## get total price of the order
+def totalOrderPrice():
+    """This function return the total price of the cart items/values."""
 
-    order_date = datetime.now()
-
-    
     cnn = mysqlConnection()
     mycursor = cnn.cursor()
 
@@ -20,6 +15,27 @@ def createOrderDetails(user_email):
     mycursor.execute(queryPrice)
 
     total_price = mycursor.fetchall()[0]
+
+    cnn.close()
+    return total_price
+
+
+
+
+def createOrderDetails(user_email):
+    """This function insert the details into orders table."""
+
+    # following is the order details
+    #(order_id , order_date , customer_name , total_price) # order_id is auto increment so don't pass
+    # lets collect it one by one.
+
+    order_date = datetime.now().date()
+
+    total_price = totalOrderPrice()
+    
+    cnn = mysqlConnection()
+    mycursor = cnn.cursor()
+
 
     # fetching user_name from the user table.
     queryUser = ("SELECT user_name FROM grocery_store.user WHERE user_email = %s")
@@ -71,6 +87,12 @@ def orderDetails():
     cnn.close()
 
     return order_detail_list
+
+
+
+
+
+
 
 
 
