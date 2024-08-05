@@ -28,7 +28,7 @@ def cartItemList():
 
 
 ## function that adds products into cart table
-def addCartItems(prod_id , prod_quantity):
+def addCartItems(prod_id , prod_quantity = 1):
     """This function takes a product id and adds that product into cart table."""
 
     cnn = mysqlConnection()
