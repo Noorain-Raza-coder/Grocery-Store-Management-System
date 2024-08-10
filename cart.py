@@ -1,5 +1,6 @@
 from mysqlConn import mysqlConnection
-
+from flask_session import Session
+from flask import session
 
 ## function that return list of cart items/products
 def cartItemList():
@@ -7,17 +8,20 @@ def cartItemList():
     cnn = mysqlConnection()
     mycursor = cnn.cursor()
 
-    query = ("SELECT * FROM grocery_store.cart")
-    mycursor.execute(query)
+    user_id = session['user_id']
+
+    query = "SELECT * FROM proj_grocery_store.cart WHERE user_id = %s"
+    mycursor.execute(query , (user_id,))
 
     cartItems = []
 
-    for (prod_id , prod_name , prod_quantity , prod_totalPrice) in mycursor.fetchall():
+    for (cart_id , user_id , prod_id, prod_qty, prod_tot_price) in mycursor.fetchall():
         cartItems.append({
+            "cart_id" : cart_id , 
+            "user_id" : user_id , 
             "prod_id" : prod_id , 
-            "prod_name" : prod_name , 
-            "prod_quantity" : prod_quantity , 
-            "prod_totalPrice" :  prod_totalPrice
+            "prod_qty" :  prod_qty,
+            "prod_tot_price": prod_tot_price
         })
 
     cnn.close()
@@ -28,34 +32,27 @@ def cartItemList():
 
 
 ## function that adds products into cart table
-def addCartItems(prod_id , prod_quantity = 1):
+def addCartItems(prod_id , prod_qty):
     """This function takes a product id and adds that product into cart table."""
 
     cnn = mysqlConnection()
     mycursor = cnn.cursor()
 
-    query = ("INSERT INTO grocery_store.cart (prod_id , prod_name , prod_quantity , prod_totalPrice) "
-                "VALUES (%s , %s , %s , %s) ")
+    # fetching product price
+    prodQuery = "SELECT prod_price FROM proj_grocery_store.product WHERE prod_id = %s"
+    mycursor.execute(prodQuery , (prod_id,))
+    prod_price = mycursor.fetchall()[0][0]
 
-    prodQuery = (f"SELECT prod_name,prod_price FROM grocery_store.products WHERE prod_id = {prod_id}")
-    mycursor.execute(prodQuery)
+    prod_tot_price = int(prod_qty) * prod_price
 
-    # fetching the product anme and product price from product table for given product id.
-    prod_data = []
-    for (prod_name, prod_price) in mycursor.fetchall():
-        prod_data.append({"prod_name"  : prod_name, "prod_price" : prod_price})
+    # inserting items to cart
+    mainquery = "INSERT INTO proj_grocery_store.cart (user_id , prod_id , prod_qty , prod_tot_price) VALUES (%s,%s,%s,%s)"
+    
+    user_id = session['user_id']
+    data = (user_id , prod_id, prod_qty, prod_tot_price)
 
-    prod_id = prod_id
-    prod_name = prod_data[0]["prod_name"]
-    prod_quantity = prod_quantity
-    prod_totalPrice = prod_quantity * prod_data[0]["prod_price"]
-
-    data = (prod_id , prod_name , prod_quantity , prod_totalPrice)
-
-    mycursor.execute(query , data)
-
+    mycursor.execute(mainquery,data)
     cnn.commit()
-
     cnn.close()
 
     return "item added into cart successfully."
@@ -71,7 +68,7 @@ def removeCartItem(prod_id):
     cnn = mysqlConnection()
     mycursor = cnn.cursor()
 
-    query = (f"DELETE FROM grocery_store.cart WHERE prod_id = {prod_id}")
+    query = (f"DELETE FROM proj_grocery_store.cart WHERE prod_id = {prod_id}")
     mycursor.execute(query)
 
     cnn.commit()
@@ -81,25 +78,19 @@ def removeCartItem(prod_id):
 
 
 
+## making cart empty for given user_id
+def cleanCart(user_id):
+    """This function takes userid and removes all the item from the cart for that user id."""
 
+    cnn = mysqlConnection()
+    mycursor = cnn.cursor()
 
+    query = (f"DELETE FROM proj_grocery_store.cart WHERE user_id = {user_id}")
+    mycursor.execute(query)
 
+    cnn.commit()
+    cnn.close()
 
+    return "cart is cleaned now."
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-if __name__ == '__main__':
-    print(removeCartItem(9))
-    
     

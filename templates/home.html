@@ -3,67 +3,100 @@
 <head> 
 	<title>Home Page</title> 
 	<meta charset="utf-8"> 
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1"> 
-	<link rel="stylesheet" href= 
-"https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> 
-	<script src= 
-"https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"> 
-	</script> 
-	<script src= 
-"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"> 
-	</script> 
-	<script src= 
-"https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"> 
-	</script> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script> 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> 
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
+	<style>
+		body {
+			font-family: 'Arial', sans-serif;
+			background-color: #f2f2f2; /* Light gray background */
+			margin: 0;
+			padding: 0;
+		}
+
+		header {
+			background-color: #28a745; /* Green background */
+			padding: 20px 0;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			margin-bottom: 20px;
+		}
+
+		header h1 {
+			color: #fff;
+			font-size: 36px;
+			margin: 0;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+		}
+
+		.nav-link {
+			font-size: 18px;
+			color: #28a745; /* Green text */
+			font-weight: bold;
+			padding: 15px;
+			text-decoration: none;
+			border-radius: 8px;
+			transition: background-color 0.3s ease, color 0.3s ease;
+			display: block;
+		}
+
+		.nav-link:hover {
+			background-color: #28a745; /* Green background on hover */
+			color: #fff; /* White text on hover */
+		}
+
+		.nav-container {
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			margin-bottom: 20px;
+		}
+
+		.nav-item {
+			margin-bottom: 10px;
+		}
+
+		.home-image {
+			width: 100%;
+			height: auto;
+			border-radius: 8px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			display: block;
+		}
+
+		.text-center {
+			text-align: center;
+		}
+	</style>
 </head> 
 <body> 
 	<header> 
-		<div class="container text-center" > 
-			<h1 style="color: green">Grocery Store Management System</h1> 
+		<div class="container text-center"> 
+			<h1>Grocery Store Management System</h1> 
 		</div> 
 	</header> 
 
-	<br/> 
-	<div class="container"> 
-		<div class="row"> 
-			<div class="col-sm-4"> 
-				<div class="text-center"> 
-					<a href="{{url_for('HomePage')}}">Home</a> 
-				</div> 
+	<div class="container nav-container"> 
+		<div class="row text-center"> 
+			<div class="col-sm-3 nav-item"> 
+				<a class="nav-link" href="{{url_for('HomePage')}}">Home</a> 
 			</div> 
-			<div class="col-sm-4"> 
-				<div class="text-center"> 
-					<a href="{{url_for('ProductsPage')}}">Shop</a>
-				</div> 
+			<div class="col-sm-3 nav-item"> 
+				<a class="nav-link" href="{{url_for('ProductsPage')}}">Shop</a>
 			</div> 
-			<div class="col-sm-4"> 
-				<div class="text-center"> 
-					<a href="{{url_for('OrderPage')}}">Orders</a> 
-				</div> 
+			<div class="col-sm-3 nav-item"> 
+				<a class="nav-link" href="{{url_for('OrderPage')}}">Orders</a> 
+			</div> 
+			<div class="col-sm-3 nav-item"> 
+				<a class="nav-link" href="{{url_for('logout')}}">Logout</a> 
 			</div> 
 		</div> 
 	</div> 
-	<!-- <footer> 
-		<hr /> 
-		<div class="container"> 
-			<p> 
-				<a href="https://www.geeksforgeeks.org/"> 
-					Visit 
-				</a> 
-				our website 
-			</p> 
-			<p> 
-				<a href="https://www.geeksforgeeks.org/"> 
-					Like 
-				</a> 
-				us on facebook 
-			</p> 
-		</div> 
-	</footer>  -->
+
+	<div class="container"> 
+		<img src="Home.jpg" alt="Home Image" class="home-image" onerror="this.src='https://via.placeholder.com/800x400?text=Image+Not+Found';">
+	</div> 
 </body> 
-</html> 
-
-
-
-
+</html>

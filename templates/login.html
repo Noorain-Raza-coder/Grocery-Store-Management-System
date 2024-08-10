@@ -8,14 +8,33 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #F2C4CE; /* Light gray background */
+            background-color: #F2C4CE; /* Light pink background */
             color: #333; /* Dark gray text */
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px; /* Add some padding for better spacing */
+        }
+        .welcome-section {
+            position: relative;
+            width: 50%;
+        }
+        .welcome-section img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .welcome-text {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #FFFFFF; /* White text */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add some shadow for better visibility */
         }
         .container {
             background-color: #fff; /* White background */
@@ -26,7 +45,7 @@
             text-align: center;
         }
         h1 {
-            color: #F58F7C; /* Google Blue */
+            color: #F58F7C; /* Matching the color of the button */
             margin-bottom: 20px;
         }
         h3 {
@@ -53,7 +72,7 @@
             box-sizing: border-box;
         }
         button[type="submit"] {
-            background-color: #F58F7C; /* Google Blue */
+            background-color: #F58F7C; /* Matching the color of the heading */
             color: #fff; /* White text */
             border: none;
             padding: 10px;
@@ -63,14 +82,19 @@
             transition: background-color 0.3s ease;
         }
         button[type="submit"]:hover {
-            background-color: #F58F7C; /* Darker shade of Google Blue */
+            background-color: #e07c6a; /* Darker shade */
         }
     </style>
 </head>
 <body>
+    <div class="welcome-section">
+        <img src="Home.jpg" alt="Grocery Shop">
+        <div class="welcome-text">Welcome to Our Grocery Shop!</div>
+    </div>
+
     <div class="container">
         <h1>Login Yourself</h1>
-        <h3>If you don't have an account, click on <a href="{{url_for('registrationPage')}}">Create Account</a></h3>
+        <h3>If you don't have an account, click on <a href="{{ url_for('registrationPage') }}">Create Account</a></h3>
         <form action="/login" method="post">
             <label for="useremail">Email</label>
             <input type="text" id="useremail" name="useremail"><br>
@@ -78,7 +102,7 @@
             <input type="password" id="userpass" name="userpass"><br>
             <button type="submit">Submit</button>
         </form>
-        <h3>{{msg}}</h3>
+        <h3>{{ msg }}</h3>
     </div>
 </body>
 </html>

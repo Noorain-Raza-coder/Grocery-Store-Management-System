@@ -8,15 +8,12 @@ def productList():
     ex - [{'prod_id': 1, 'prod_name': 'Biscuit', 'prod_uom': 'each', 'prod_price': 10.0}]"""
 
     cnn = mysqlConnection()
-
     mycursor = cnn.cursor()
 
-    query = "SELECT * FROM grocery_store.products"
-
+    query = "SELECT * FROM proj_grocery_store.product"
     mycursor.execute(query)
 
     productsList = []
-
     for (prod_id , prod_name , prod_uom , prod_price) in mycursor.fetchall():
         productsList.append(
             {
@@ -28,12 +25,11 @@ def productList():
         )
 
     cnn.close()
-
     return productsList
 
    
     
-
+## this is pending task.
 ## fucntion that add product into product table, only can be done by website admin.
 def addProduct(data):
     """ This function takes product's data as a dictionary and add the product into products table and returns none.
@@ -42,8 +38,7 @@ def addProduct(data):
     cnn = mysqlConnection()
     mycursor = cnn.cursor()
 
-    
-    query = ("INSERT INTO grocery_store.products ( prod_name , prod_uom , prod_price) "
+    query = ("INSERT INTO proj_grocery_store.products ( prod_name , prod_uom , prod_price) "
             " VALUES ( %s , %s , %s) ")                                                       # (8 , 'Tomato' , ''kg'' , 30) , prod_id is auto_increment so don't need to pass
 
     data = (data["prod_name"] , data["prod_uom"] , data["prod_price"])
@@ -51,7 +46,6 @@ def addProduct(data):
     mycursor.execute(query , data)
 
     cnn.commit()
-
     cnn.close()
 
 
@@ -69,16 +63,7 @@ def removeProduct(prod_id):
     mycursor.execute(query)
 
     cnn.commit()
-
     cnn.close()
 
 
 
-
-
-
-
-
-if __name__ == '__main__':
-    prod_id = 10
-    removeProduct(prod_id)

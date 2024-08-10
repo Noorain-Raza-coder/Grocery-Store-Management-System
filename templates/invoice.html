@@ -1,20 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Invoice</title>
+	<title>Order Page</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<style>
+		body {
+			font-family: 'Arial', sans-serif;
+			background-color: #f2f2f2;
+			margin: 0;
+			padding: 0;
+		}
+
+		header {
+			background-color: #28a745; /* Green background */
+			padding: 20px 0;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			margin-bottom: 20px;
+		}
+
+		header h1 {
+			color: #fff;
+			font-size: 36px;
+			margin: 0;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+		}
+
+		.nav-link {
+			font-size: 18px;
+			color: #28a745;
+			font-weight: bold;
+			padding: 15px;
+			text-decoration: none;
+			border-radius: 8px;
+			transition: background-color 0.3s ease, color 0.3s ease;
+			display: block;
+			text-align: center;
+		}
+
+		.nav-link:hover {
+			background-color: #28a745;
+			color: #fff;
+		}
+
+		.nav-container {
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			margin-bottom: 20px;
+		}
+
+		.nav-item {
+			margin-bottom: 10px;
+		}
+		
+	</style>
 </head>
 <body>
-    <h1>Your Invoice</h1>
-    {% for key in yrInvoice %}
-        {% if key == "Total Price" %}
-            <h3>{{key}} : {{yrInvoice[key]}} Rs.</h3>
-        {% else %}
-            <h3>{{key}} : {{yrInvoice[key]}}</h3>
-        {% endif %}
-    {% endfor %}
+     <!-- header -->
+	<header> 
+        <div class="container text-center"> 
+            <h1>Grocery Store Management System</h1> 
+        </div> 
+    </header> 
+    <div class="container nav-container"> 
+        <div class="row text-center"> 
+            <div class="col-sm-3 nav-item"> 
+                <a class="nav-link" href="{{url_for('HomePage')}}">Home</a> 
+            </div> 
+            <div class="col-sm-3 nav-item"> 
+                <a class="nav-link" href="{{url_for('ProductsPage')}}">Shop</a>
+            </div> 
+            <div class="col-sm-3 nav-item"> 
+                <a class="nav-link" href="{{url_for('OrderPage')}}">Orders</a> 
+            </div> 
+            <div class="col-sm-3 nav-item"> 
+                <a class="nav-link" href="{{url_for('logout')}}">Logout</a> 
+            </div> 
+        </div> 
+    </div> 
     
+    
+	<div class="container">
+		<div>
+			<h1>Your Invoice</h1>
+    		{% for key in finalOrdDetail %}
+        		{% if key == "total_price" %}
+            		<h3>{{key}} : {{finalOrdDetail[key]}} Rs.</h3>
+        		{% else %}
+            		<h3>{{key}} : {{finalOrdDetail[key]}}</h3>
+        		{% endif %}
+    		{% endfor %}
+		</div>
+
+	</div>
 </body>
 </html>

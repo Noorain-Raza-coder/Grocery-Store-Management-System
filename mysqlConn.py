@@ -3,7 +3,7 @@ import mysql.connector
 
 def mysqlConnection():
     ## create connection
-    cnn = mysql.connector.connect(user = 'root' , password = 'Mysql$2002' , host = '127.0.0.1' , database = 'grocery_store')
+    cnn = mysql.connector.connect(user = 'root' , password = 'Mysql$2002' , host = '127.0.0.1' , database = 'proj_grocery_store')
 
     try :
         if cnn :

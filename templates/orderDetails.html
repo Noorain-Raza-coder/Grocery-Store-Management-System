@@ -1,111 +1,172 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-	<title>Products Page</title> 
-	<meta charset="utf-8"> 
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1"> 
-	<link rel="stylesheet" href= 
-"https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> 
-	<script src= 
-"https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"> 
-	</script> 
-	<script src= 
-"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"> 
-	</script> 
-	<script src= 
-"https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"> 
-	</script> 
-</head> 
-<body> 
-    <!-- header -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Order Page</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #28a745; /* Green background */
+            padding: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            color: #fff;
+            font-size: 36px;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-link {
+            font-size: 18px;
+            color: #28a745;
+            font-weight: bold;
+            padding: 15px;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: block;
+            text-align: center;
+        }
+
+        .nav-link:hover {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .nav-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+        /* Table Styling */
+        .table-container {
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+        }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Button Styling */
+        button[type="submit"], .btn-danger {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            display: block;
+            margin: auto;
+        }
+        button[type="submit"]:hover, .btn-danger:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+     <!-- header -->
     <header> 
-		<div class="container text-center" > 
-			<h1 style="color: green">Grocery Store Management System</h1> 
-		</div> 
-	</header> 
-    <hr>
-	<!-- <br/>  -->
-    <div class="container"> 
-		<div class="row"> 
-			<div class="col-sm-4"> 
-				<div class="text-center"> 
-					<a href="{{url_for('HomePage')}}">Home</a> 
-				</div> 
-			</div> 
-			<div class="col-sm-4"> 
-				<div class="text-center"> 
-					<a href="{{url_for('ProductsPage')}}">Shop</a>
-				</div> 
-			</div> 
-			<div class="col-sm-4"> 
-				<div class="text-center"> 
-					<a href="{{url_for('OrderPage')}}">Orders</a> 
-				</div> 
-			</div> 
-		</div> 
-	</div> 
-    <hr>
+        <div class="container text-center"> 
+            <h1>Grocery Store Management System</h1> 
+        </div> 
+    </header> 
+    <div class="container nav-container"> 
+        <div class="row text-center"> 
+            <div class="col-sm-3 nav-item"> 
+                <a class="nav-link" href="{{url_for('HomePage')}}">Home</a> 
+            </div> 
+            <div class="col-sm-3 nav-item"> 
+                <a class="nav-link" href="{{url_for('ProductsPage')}}">Shop</a>
+            </div> 
+            <div class="col-sm-3 nav-item"> 
+                <a class="nav-link" href="{{url_for('OrderPage')}}">Orders</a> 
+            </div> 
+            <div class="col-sm-3 nav-item"> 
+                <a class="nav-link" href="{{url_for('logout')}}">Logout</a> 
+            </div> 
+        </div> 
+    </div> 
 
-
-
-    <!-- Products Table -->
-
-    <div>
+    <!-- Orders Table -->
+    <div class="table-container">
         <div class="text-center">
-            <h1>Added Items</h1>
+            <h2>Cart Table</h2>
         </div>
-        
-        <div class="text-center">
-            <table>
+        <table class="table">
+            <tr>
+                <th>Cart ID</th>
+                <th>Product ID</th>
+                <th>Qty</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+            </tr>
+
+            {% for row in cartitems %}
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Qty</th>
-                    <th>Price</th>
-                    <th>Action</th>
+                    <td>{{row['cart_id']}}</td>
+                    <td>{{row['prod_id']}}</td>
+                    <td>{{row['prod_qty']}}</td>
+                    <td>{{row['prod_tot_price']}}</td>
+                    <td><a href="{{url_for('removeItemFromCart' , id = row['prod_id'])}}" class="btn btn-danger btn-sm">Remove Item</a></td>
                 </tr>
-
-                {% for row in cartitems %}
-                    <tr>
-                        {% for data in row %}
-                            <td>{{row[data]}}</td>
-
-                        {% endfor %}
-                        <td><a href="{{url_for('removeItemFromCart' , id = row['prod_id'])}}">Remove Item</a></td>
-
-                    </tr>
-
-                {% endfor %}
-            </table>
-        </div>
-        <br> 
-
-    </div>
-    
-    <!-- total price tag -->
-    <div>
-        <div class="text-center">
-            <h3>Total Price : {{totalPrice}} Rs.</h3>
-        </div>
-        
+            {% endfor %}
+        </table>
     </div>
 
-    <!-- place order button -->
-    <div>
-        <form action="/orderDetails" method="post" >
-            <label>Enter Your Email :</label>
-            <input type="text" name = "email" id="email"><br>
-            <button type="submit" >Place Order</button>
+    <!-- Total Price -->
+    <div class="text-center mt-4">
+        <h3>Total Price: {{totalPrice}} Rs.</h3>
+    </div>
+
+    <!-- Place Order Button -->
+    <div class="text-center">
+        <form action="/orderDetails" method="post">
+            <button type="submit">Place Order</button>
         </form>
-        
     </div>
 
-
-	
-</body> 
-</html> 
-
-
-
-
+</body>
+</html>

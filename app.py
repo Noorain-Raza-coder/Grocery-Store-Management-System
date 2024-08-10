@@ -1,13 +1,17 @@
-from flask import Flask, render_template , request ,redirect
+from flask import Flask, render_template , request ,redirect , session
 from product import productList
 from cart import *
 from order import *
 from mysqlConn import *
+from flask_session import Session
 
 
 app = Flask(__name__)
 
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
 
+Session(app)
 
 
 @app.route('/')
@@ -28,15 +32,22 @@ def login():
     cnn = mysqlConnection()
     mycursor = cnn.cursor()
 
-    query = ("SELECT * FROM grocery_store.user WHERE user_email = %s AND user_pass = %s")
+    query = ("SELECT * FROM proj_grocery_store.user WHERE user_email = %s AND user_pass = %s")
 
     mycursor.execute(query , (user_email ,user_pass))
 
-    if len(mycursor.fetchall()) == 0 :
+    try :
+        user_id = mycursor.fetchall()[0][0]
+    except :
+        msg =  "No user exists with this username and password."
         cnn.close()
-        return render_template("login.html" , msg = "No user exists with this username and password.")
+        return render_template("login.html" , msg = msg)
 
     cnn.close()
+
+    # create a session for the user with user_id
+    session['user_id'] = user_id
+
     # return "Welcome to our website."
     return redirect("/home")
 
@@ -51,18 +62,18 @@ def register():
     user_name = request.form['username']
     user_email = request.form['useremail']
     user_pass = request.form['userpass']
-    user_PhNum = request.form['userphnum']
-    user_addr = request.form['useraddr']
+    user_ph = request.form['userphnum']
+    user_add = request.form['useraddr']
 
     # check it there is any null record ?
-    if "" in [user_name , user_email , user_pass , user_PhNum , user_addr] :
+    if "" in [user_name , user_pass, user_email , user_ph , user_add] :
         return render_template("register.html" , msg = "Error ! Enter all the information correctly.")
 
     try:
         cnn = mysqlConnection()
         mycursor = cnn.cursor()
  
-        mycursor.execute("INSERT INTO grocery_store.user (user_name , user_email , user_pass , user_PhNum , user_addr) VALUES(%s , %s , %s , %s , %s)" , (user_name , user_email , user_pass , user_PhNum , user_addr))
+        mycursor.execute("INSERT INTO proj_grocery_store.user (user_name , user_pass, user_email , user_ph , user_add) VALUES(%s , %s , %s , %s , %s)" , (user_name , user_pass, user_email , user_ph , user_add))
         cnn.commit()
         cnn.close()
 
@@ -72,6 +83,12 @@ def register():
     return render_template("login.html")
 
 
+
+## also define logout functionality
+@app.route('/logout')
+def logout():
+    session.pop('user_id')
+    return redirect('/')
 
 
 
@@ -90,10 +107,13 @@ def ProductsPage():
 
 
 ## route for add items to cart table
-@app.route('/addItem')
+@app.route('/addItem' , methods = ['post'])
 def addItemtoCart():
-    id = request.args.get("id")
-    addCartItems(id)
+    # id = request.args.get("id")
+    prod_id = request.form['id']
+    prod_qty = request.form['qty']
+
+    addCartItems(prod_id , prod_qty)
     return redirect('/product')
 
 
@@ -102,7 +122,7 @@ def addItemtoCart():
 def OrderPage():
     cartitems = cartItemList()
     totalPrice = totalOrderPrice()
-    return render_template("orderDetails.html" , cartitems = cartitems , totalPrice = totalPrice[0])
+    return render_template("orderDetails.html" , cartitems = cartitems , totalPrice = totalPrice)
 
 
 ## route for remove a cart item
@@ -116,21 +136,22 @@ def removeItemFromCart():
 ## route for final order details
 @app.route('/orderDetails' , methods = ['POST'])
 def finalOrderDetails():
-    user_email = request.form['email']
-    createOrderDetails(user_email)
+    # user_email = request.form['email']
+    user_id = session['user_id']
+
+    # createOrderDetails(user_email)
+    createOrderDetails(user_id)
 
     # getting order details to display on final order details page
-    finalOrdDetail = orderDetails()
+    finalOrdDetail = orderDetails(user_id)
 
-    return render_template("finalOrderDetail.html", finalOrdDetail = finalOrdDetail)
+    # making cart empty for that user_id
+    cleanCart(user_id)
+
+    return render_template("invoice.html", finalOrdDetail = finalOrdDetail)
 
 
 
-## route to get the invoice
-@app.route('/invoice/<order_id>', methods = ['POST'])
-def invoice(order_id):
-    yrInvoice = creatInvoice(order_id)
-    return render_template("invoice.html" , yrInvoice = yrInvoice)
 
 
 
